@@ -1,0 +1,26 @@
+{
+  "name": "votesystem",
+  "version": "1.0.0",
+  "description": "a vote system'",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:WilliamDu1981/vote-system.git"
+  },
+  "author": "'William Du'",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "connect-mongo": "^1.2.0",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.4.2",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "log4js": "^0.6.36",
+    "mongoose": "^4.4.20"
+  },
+  "devDependencies": {}
+}
