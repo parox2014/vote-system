@@ -5,6 +5,17 @@
   <title>投票展示</title>
 </head>
 <body>
-<%=JSON.stringify(req.query)%>
+<h1>Hello express</h1>
+<script src="lib/socket.io.js"></script>
+<script type="text/javascript">
+  window.addEventListener('DOMContentLoaded',function () {
+    var SOCKET_URL='http://localhost:9090';
+    var socket=io(SOCKET_URL);
+
+    socket.on('notification',function (data) {
+      console.info(data);
+    });
+  });
+</script>
 </body>
 </html>
