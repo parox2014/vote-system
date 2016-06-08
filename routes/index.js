@@ -13,7 +13,7 @@ module.exports=function (app) {
   });
   
   //投票接口
-  candidateRouter.post('/vote/:id',candidateCtrl.vote);
+  candidateRouter.put('/:id/vote',candidateCtrl.vote);
   
   //添加候选人
   candidateRouter.post('/',candidateCtrl.add);

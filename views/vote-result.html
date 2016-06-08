@@ -3,18 +3,148 @@
 <head>
   <meta charset="UTF-8">
   <title>投票展示</title>
+  <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style type="text/css">
+    html,body,.full{
+      width: 100%;
+      height: 100%;
+      padding: 0;
+    }
+    body{
+      font-family: "Microsoft YaHei UI";
+    }
+  </style>
 </head>
 <body>
-<h1>Hello express</h1>
+
+<div class="container-fluid full" id="app">
+  <div id="charts" class="full"></div>
+</div>
+
+<script src="node_modules/vue/dist/vue.min.js"></script>
+<script src="node_modules/vue-resource/dist/vue-resource.min.js"></script>
+<script src="node_modules/underscore/underscore-min.js"></script>
+<script src="lib/echarts.min.js"></script>
 <script src="lib/socket.io.js"></script>
 <script type="text/javascript">
+
   window.addEventListener('DOMContentLoaded',function () {
     var SOCKET_URL='http://localhost:9090';
-    var socket=io(SOCKET_URL);
 
-    socket.on('notification',function (data) {
-      console.info(data);
-    });
+
+    var option = {
+      title: {
+        text: '深圳市创建国家食品安全城市口号征集',
+        textStyle:{
+          color:'#333',
+          fontSize:36,
+          fontWeight:'bold'
+        },
+        left:'center',
+        padding:20
+      },
+      grid:{
+        top:100,
+        right:'5%',
+        left:'5%',
+        bottom:'10%'
+      },
+      xAxis: {
+        type:'category',
+        data:[],
+        axisLabel:{
+          textStyle:{
+            color:'#333',
+            fontSize:24,
+            fontWeight:'bold'
+          }
+        }
+      },
+      yAxis: {
+        type:'value',
+
+        axisLabel:{
+          textStyle:{
+            color:'#333',
+            fontSize:24,
+            fontWeight:'bold'
+          }
+        }
+      },
+      series: [{
+        name: '票数',
+        type: 'bar',
+        label:{
+          normal:{
+            show:true,
+            position:'inside',
+            formatter:function (item) {
+              return item.value>0?item.value:'';
+            },
+            textStyle:{
+              color:'#fff',
+              fontSize:36,
+              fontWeight:'bold'
+            }
+          }
+        },
+        data: []
+      }]
+    };
+
+    var app=new Vue({
+      el:'#app',
+      data:{
+        candidates:[],
+        charts:null,
+        socket:null
+      },
+      created:function () {
+        var _this=this;
+        var socket=this.socket=io(SOCKET_URL);
+
+        socket.on('notification',function (data) {
+          var item=_.findWhere(option.series[0].data,{_id:data._id});
+
+          if(item){
+            item.value=data.votes;
+            _this.charts.setOption(option);
+          }
+        });
+      },
+      ready:function () {
+        var _this=this;
+        var chartsEl=this.$el.querySelector('#charts');
+
+        this.charts=echarts.init(chartsEl);
+
+        window.addEventListener('resize',function () {
+          _this.charts.resize();
+        });
+        this.fetch();
+      },
+      methods:{
+        fetch:function () {
+          this.$http.get('/candidate',function (resp) {
+            resp.forEach(function (item) {
+              option.xAxis.data.push({
+                value:item.realName+'\n('+item.slogan+')'
+              });
+              item.name=item.realName;
+              item.value=item.votes;
+              item.itemStyle={
+                normal:{
+                  color:item.color
+                }
+              };
+              option.series[0].data.push(item);
+            });
+
+            this.charts.setOption(option);
+          });
+        }
+      }
+    })
   });
 </script>
 </body>

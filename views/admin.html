@@ -2,9 +2,56 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>候选人管理</title>
+  <title>后台管理</title>
+  <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style type="text/css">
+    body{
+      font-family: "Microsoft YaHei UI";
+      background: #eaeaea;
+    }
+
+    th,td{
+      text-align: center;
+    }
+    .navbar.navbar-default .navbar-nav>li>.v-link-active{
+      background: #67b168;
+      color:#fff;
+    }
+
+    .margin-top{
+      margin-top: 10px;
+    }
+
+    .margin-bottom{
+      margin-bottom:10px;
+    }
+  </style>
 </head>
 <body>
 
+<div id="app">
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">投票后台管理</a>
+      </div>
+
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li><a v-link="{name:'vote',exact:true}">投票</a></li>
+          <li><a v-link="{name:'candidate',exact:true}">候选人</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <router-view></router-view>
+</div>
+
+<script src="node_modules/vue/dist/vue.min.js"></script>
+<script src="node_modules/vue-resource/dist/vue-resource.min.js"></script>
+<script src="node_modules/vue-router/dist/vue-router.min.js"></script>
+<script src="node_modules/vue-validator/dist/vue-validator.min.js"></script>
+<script src="dist/bundle.js"></script>
 </body>
 </html>

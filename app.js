@@ -9,6 +9,7 @@ var ejs=require('ejs');
 var models=require('./models');
 var socket=require('./socket');
 var routes=require('./routes');
+var morgan=require('morgan');
 
 
 var app=express();
@@ -23,6 +24,11 @@ app.set('views',__dirname+'/views');
 
 app.use(express.static(path.join(__dirname, 'static')));
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(morgan());
+
 routes(app);
 
 app.listen(80,function () {
@@ -30,4 +36,5 @@ app.listen(80,function () {
 });
 
 socket(app);
+
 module.exports=app;
