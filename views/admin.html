@@ -10,11 +10,24 @@
       background: #eaeaea;
     }
 
+    html,body,#app{
+      width: 100%;
+      height: 100%;
+    }
+
+    .view-container{
+      position: absolute;
+      top: 72px;
+      left:0;
+      right: 0;
+      bottom:0;
+      padding: 0 20px;
+    }
     th,td{
       text-align: center;
     }
     .navbar.navbar-default .navbar-nav>li>.v-link-active{
-      background: #67b168;
+      background: #337ab7;
       color:#fff;
     }
 
@@ -24,6 +37,15 @@
 
     .margin-bottom{
       margin-bottom:10px;
+    }
+
+    .fade-transition{
+      transition: all 500ms ease-in-out;
+    }
+
+    .fade-leave,.fade-enter{
+      opacity: 0;
+      transform: rotateY(180deg);
     }
   </style>
 </head>
@@ -45,7 +67,7 @@
       </div>
     </div>
   </nav>
-  <router-view></router-view>
+  <router-view transition="fade"></router-view>
 </div>
 
 <script src="node_modules/vue/dist/vue.min.js"></script>

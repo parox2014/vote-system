@@ -128,7 +128,7 @@
           this.$http.get('/candidate',function (resp) {
             resp.forEach(function (item) {
               option.xAxis.data.push({
-                value:item.realName+'\n('+item.slogan+')'
+                value:item.realName//+'\n('+item.slogan+')'
               });
               item.name=item.realName;
               item.value=item.votes;
