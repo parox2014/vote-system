@@ -31,8 +31,10 @@ app.use(morgan());
 
 routes(app);
 
-app.listen(80,function () {
-  logger.info('server start at port:80');
+var port=10000;
+
+app.listen(port,function () {
+  logger.info('server start at port:'+port);
 });
 
 socket(app);

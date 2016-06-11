@@ -15,10 +15,27 @@
     }
   </style>
 </head>
-<body>
+<body style="background: #0099ff;">
 
 <div class="container-fluid full" id="app">
-  <div id="charts" class="full"></div>
+  <div class="row full">
+    <div class="col-md-3" style="height: 100%;">
+      <img src="image/left.jpg" class="full">
+    </div>
+    <div class="col-md-9" style="height: 100%">
+      <div id="charts" style="height: 60%;">
+
+      </div>
+      <div style="height: 40%;">
+        <ul style="color:#fff;font-size: 28px;">
+          <li v-for="candidate of candidates">
+            {{candidate.realName}}：{{candidate.slogan}}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script src="node_modules/vue/dist/vue.min.js"></script>
@@ -34,9 +51,9 @@
 
     var option = {
       title: {
-        text: '深圳市创建国家食品安全城市口号征集',
+        text: '深圳市创建国家食品安全城市口号征集第一名票选',
         textStyle:{
-          color:'#333',
+          color:'#fff',
           fontSize:36,
           fontWeight:'bold'
         },
@@ -44,9 +61,10 @@
         padding:20
       },
       grid:{
+        show:false,
         top:100,
-        right:'5%',
-        left:'5%',
+        right:'2%',
+        left:'3%',
         bottom:'10%'
       },
       xAxis: {
@@ -54,18 +72,45 @@
         data:[],
         axisLabel:{
           textStyle:{
-            color:'#333',
+            color:'#fff',
             fontSize:24,
             fontWeight:'bold'
+          }
+        },
+        splitLine:{
+          show:false
+        },
+        axisLine:{
+          lineStyle:{
+            color:'#fff',
+            width:2
+          }
+        },
+        axisTick:{
+          lineStyle:{
+            color:'#fff'
           }
         }
       },
       yAxis: {
         type:'value',
-
+        axisLine:{
+          lineStyle:{
+            color:'#fff',
+            width:2
+          }
+        },
+        splitLine:{
+          show:false
+        },
+        axisTick:{
+          lineStyle:{
+            color:'#fff'
+          }
+        },
         axisLabel:{
           textStyle:{
-            color:'#333',
+            color:'#fff',
             fontSize:24,
             fontWeight:'bold'
           }
@@ -77,7 +122,7 @@
         label:{
           normal:{
             show:true,
-            position:'inside',
+            position:'top',
             formatter:function (item) {
               return item.value>0?item.value:'';
             },
@@ -125,8 +170,10 @@
       },
       methods:{
         fetch:function () {
+          var _this=this;
           this.$http.get('/candidate',function (resp) {
             resp.forEach(function (item) {
+              _this.candidates.push(item);
               option.xAxis.data.push({
                 value:item.realName//+'\n('+item.slogan+')'
               });
@@ -134,7 +181,7 @@
               item.value=item.votes;
               item.itemStyle={
                 normal:{
-                  color:item.color
+                  color:'#fff'//item.color
                 }
               };
               option.series[0].data.push(item);
