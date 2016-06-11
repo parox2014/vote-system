@@ -10,7 +10,7 @@ var models=require('./models');
 var socket=require('./socket');
 var routes=require('./routes');
 var morgan=require('morgan');
-
+var cors=require('cors');
 
 var app=express();
 
@@ -31,11 +31,9 @@ app.use(morgan());
 
 routes(app);
 
-var port=3000;
-
-app.listen(port,function () {
-  logger.info('server start at port:'+port);
-});
+// app.listen(port,function () {
+//   logger.info('server start at port:'+port);
+// });
 
 socket(app);
 
