@@ -57,7 +57,7 @@ Vue.component('CandidateView', {
 'use strict';
 
 Vue.component('VoteView', {
-  template: '\n    <div class="view-container">\n      <div class="panel panel-primary">\n         <div class="panel-heading"><h4>投票</h4></div>\n         <div class="panel-body">\n          <table class="table table-bordered table-striped table-hover">\n            <thead>\n              <th>姓名</th>\n              <th>投票</th>\n              <th>票数</th>\n              <th>口号</th>\n              <th>颜色</th>\n              <th>删除</th>\n              \n            </thead>\n            <tr v-for="candidate of candidates">\n               <td>{{candidate.realName}}</td>\n               <td>\n                 <button class="btn btn-primary btn-sm" \n                  :disabled="disableAllButton"\n                  @click="vote(candidate)">\n                    +1\n                 </button>\n               </td>\n               \n               <td><strong style="font-size: 18px;">{{candidate.votes}}</strong></td>\n\n               <td>{{candidate.slogan}}</td>\n               <td :style="{background:candidate.color}"></td>\n               <td>\n                <button class="btn btn-danger btn-sm" @click="removeCandidate(candidate)">删除</button>\n               </td>\n            </tr>\n          </table>\n         </div>\n         <div class="panel-footer">\n          <button class="btn btn-danger" @click="resetVotes">重置所有候选人票数</button>\n          </div>\n      </div>\n    </div>\n  ',
+  template: '\n    <div class="view-container">\n      <div class="panel panel-primary">\n         <div class="panel-heading"><h4>投票</h4></div>\n         <div class="panel-body">\n          <table class="table table-bordered table-striped table-hover">\n            <thead>\n              <th>姓名</th>\n              <th>投票</th>\n              <th>票数</th>\n              <th>口号</th>\n              <th>颜色</th>\n              <th>删除</th>\n              \n            </thead>\n            <tr v-for="candidate of candidates">\n               <td>{{candidate.realName}}</td>\n               <td>\n                 <button class="btn btn-primary btn-sm" \n                  :disabled="disableAllButton"\n                  @click="vote(candidate)">\n                    +1\n                 </button>\n               </td>\n               \n               <td><strong style="font-size: 18px;">{{candidate.votes}}</strong></td>\n\n               <td>{{candidate.slogan}}</td>\n               <td :style="{background:candidate.color}"></td>\n               <td>\n                <button class="btn btn-danger btn-sm" @click="removeCandidate(candidate)">删除</button>\n               </td>\n            </tr>\n          </table>\n         </div>\n         <div class="panel-footer">\n          <button class="btn btn-danger" @click="resetVotes">重置所有候选人票数</button>\n          <button class="btn btn-warning btn-lg" @click="finishVote">结束投票</button>\n         </div>\n      </div>\n    </div>\n  ',
   data: function data() {
     return {
       candidates: [],
@@ -111,6 +111,11 @@ Vue.component('VoteView', {
     removeLocal: function removeLocal(candidate) {
       var index = this.candidates.indexOf(candidate);
       this.candidates.splice(index, 1);
+    },
+    finishVote: function finishVote() {
+      this.$http.put('/candidate/finish', function () {
+        alert('操作成功');
+      });
     }
   }
 });

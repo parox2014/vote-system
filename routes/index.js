@@ -24,6 +24,12 @@ module.exports = function (app) {
   
   //重置所有候选人分数
   candidateRouter.put('/reset',candidateCtrl.resetAllVotes);
+  
+  //投票结束
+  candidateRouter.put('/finish',function (req, res) {
+    notification.emit('finished',{});
+    res.send({success:true});
+  });
   //删除候选人
   candidateRouter.delete('/:id',candidateCtrl.remove);
 

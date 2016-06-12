@@ -36,7 +36,8 @@ Vue.component('VoteView',{
          </div>
          <div class="panel-footer">
           <button class="btn btn-danger" @click="resetVotes">重置所有候选人票数</button>
-          </div>
+          <button class="btn btn-warning btn-lg" @click="finishVote">结束投票</button>
+         </div>
       </div>
     </div>
   `,
@@ -94,6 +95,11 @@ Vue.component('VoteView',{
     removeLocal(candidate){
       var index=this.candidates.indexOf(candidate);
       this.candidates.splice(index,1);
+    },
+    finishVote(){
+      this.$http.put('/candidate/finish',function () {
+        alert('操作成功');
+      });
     }
   }
 });
